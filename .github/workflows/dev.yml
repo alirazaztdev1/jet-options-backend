@@ -1,0 +1,45 @@
+name: Deploy Dev branch
+
+on:
+  push:
+    branches:
+      - dev
+
+env:
+  API_GATEWAY_STAGE: dev
+
+jobs:
+  deploy:
+    name: build and deploy Dev docker image
+    runs-on: [self-hosted , jet-options-backend-dev-runner]
+    
+    steps:
+      - uses: actions/checkout@v3
+          
+      - name: Create env file
+        run: |
+          cat > .env << EOF
+          ${{ secrets.DEV_ENV }}
+          EOF
+      - name: docker build
+        run: docker build -t jet-options-backend-dev .
+        
+      - name: Docker stop and remove
+        run: |
+          CONTAINER_NAME="jet-options-backend-dev-c"
+
+          if [[ "$(docker inspect -f '{{.State.Running}}' $CONTAINER_NAME 2>/dev/null)" == "true" ]]; then
+            echo "Stopping Docker container $CONTAINER_NAME"
+            docker stop $CONTAINER_NAME && docker rm $CONTAINER_NAME && sudo docker system prune -f
+          else
+            echo "Docker container $CONTAINER_NAME is not running"
+          fi
+      
+      - name: Docker Start 
+        run: docker run -d --name jet-options-backend-dev-c -p 1337:1337 jet-options-backend-dev
+        
+      - name: Docker show logs 
+        run: sleep 30 && docker logs jet-options-backend-dev-c
+
+      - name: Clean up interim docker
+        run: docker image prune -f && docker container prune -f
