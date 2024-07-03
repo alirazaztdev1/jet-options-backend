@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "aircraft_details",
+  "info": {
+    "singularName": "aircraft-detail",
+    "pluralName": "aircraft-details",
+    "displayName": "aircraftDetail"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "airplane_make": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::airplane-make.airplane-make"
+    },
+    "airplane_model": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::airplane-model.airplane-model"
+    },
+    "yearOfManufacture": {
+      "type": "string",
+      "required": true
+    },
+    "yearOfRefurbishment": {
+      "type": "string",
+      "required": true
+    },
+    "price": {
+      "type": "integer",
+      "required": true
+    },
+    "quote": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::quote.quote"
+    },
+    "policy": {
+      "type": "richtext",
+      "required": true
+    }
+  }
+}

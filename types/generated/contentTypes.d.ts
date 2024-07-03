@@ -590,50 +590,6 @@ export interface PluginContentReleasesReleaseAction
   };
 }
 
-export interface PluginStrapiGoogleAuthGoogleCredential
-  extends Schema.SingleType {
-  collectionName: 'strapi-google-auth_google-credential';
-  info: {
-    displayName: 'Google Credentials';
-    singularName: 'google-credential';
-    pluralName: 'google-credentials';
-    description: 'Stores google project credentials';
-    tableName: 'google_auth_creds';
-  };
-  options: {
-    privateAttributes: ['id', 'created_at'];
-    populateCreatorFields: true;
-    draftAndPublish: true;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
-  attributes: {
-    google_client_id: Attribute.String & Attribute.Required;
-    google_client_secret: Attribute.String & Attribute.Required;
-    google_redirect_url: Attribute.String & Attribute.Required;
-    google_scopes: Attribute.JSON & Attribute.Required;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'plugin::strapi-google-auth.google-credential',
-      'oneToOne',
-      'admin::user'
-    >;
-    updatedBy: Attribute.Relation<
-      'plugin::strapi-google-auth.google-credential',
-      'oneToOne',
-      'admin::user'
-    >;
-  };
-}
-
 export interface PluginI18NLocale extends Schema.CollectionType {
   collectionName: 'i18n_locale';
   info: {
@@ -832,6 +788,217 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiAircraftDetailAircraftDetail extends Schema.CollectionType {
+  collectionName: 'aircraft_details';
+  info: {
+    singularName: 'aircraft-detail';
+    pluralName: 'aircraft-details';
+    displayName: 'aircraftDetail';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    airplane_make: Attribute.Relation<
+      'api::aircraft-detail.aircraft-detail',
+      'oneToOne',
+      'api::airplane-make.airplane-make'
+    >;
+    airplane_model: Attribute.Relation<
+      'api::aircraft-detail.aircraft-detail',
+      'oneToOne',
+      'api::airplane-model.airplane-model'
+    >;
+    yearOfManufacture: Attribute.String & Attribute.Required;
+    yearOfRefurbishment: Attribute.String & Attribute.Required;
+    price: Attribute.Integer & Attribute.Required;
+    quote: Attribute.Relation<
+      'api::aircraft-detail.aircraft-detail',
+      'oneToOne',
+      'api::quote.quote'
+    >;
+    policy: Attribute.RichText & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::aircraft-detail.aircraft-detail',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::aircraft-detail.aircraft-detail',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiAirplaneMakeAirplaneMake extends Schema.CollectionType {
+  collectionName: 'airplane_makes';
+  info: {
+    singularName: 'airplane-make';
+    pluralName: 'airplane-makes';
+    displayName: 'airplaneMake';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    make: Attribute.String & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::airplane-make.airplane-make',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::airplane-make.airplane-make',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiAirplaneModelAirplaneModel extends Schema.CollectionType {
+  collectionName: 'airplane_models';
+  info: {
+    singularName: 'airplane-model';
+    pluralName: 'airplane-models';
+    displayName: 'airplaneModel';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    model: Attribute.String & Attribute.Required;
+    interior: Attribute.Text;
+    exterior: Attribute.String;
+    airplane_make: Attribute.Relation<
+      'api::airplane-model.airplane-model',
+      'oneToOne',
+      'api::airplane-make.airplane-make'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::airplane-model.airplane-model',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::airplane-model.airplane-model',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiBrokerSettingBrokerSetting extends Schema.CollectionType {
+  collectionName: 'broker_settings';
+  info: {
+    singularName: 'broker-setting';
+    pluralName: 'broker-settings';
+    displayName: 'BrokerSetting';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    brokerName: Attribute.String & Attribute.Required;
+    brokerageName: Attribute.String;
+    logo: Attribute.Media<'images'> & Attribute.Required;
+    user: Attribute.Integer & Attribute.Required & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::broker-setting.broker-setting',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::broker-setting.broker-setting',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiLegLeg extends Schema.CollectionType {
+  collectionName: 'legs';
+  info: {
+    singularName: 'leg';
+    pluralName: 'legs';
+    displayName: 'leg';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    from: Attribute.String & Attribute.Required;
+    to: Attribute.String & Attribute.Required;
+    date: Attribute.DateTime & Attribute.Required;
+    passengers: Attribute.Integer;
+    quote: Attribute.Relation<'api::leg.leg', 'oneToOne', 'api::quote.quote'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::leg.leg', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::leg.leg', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiQuoteQuote extends Schema.CollectionType {
+  collectionName: 'quotes';
+  info: {
+    singularName: 'quote';
+    pluralName: 'quotes';
+    displayName: 'Quote';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    clientName: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+      }>;
+    clientEmail: Attribute.Email;
+    price: Attribute.Integer & Attribute.Required;
+    taxRate: Attribute.Decimal & Attribute.Required;
+    actionRequest: Attribute.Enumeration<['contract', 'approval']> &
+      Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::quote.quote',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::quote.quote',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -846,11 +1013,16 @@ declare module '@strapi/types' {
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
-      'plugin::strapi-google-auth.google-credential': PluginStrapiGoogleAuthGoogleCredential;
       'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::aircraft-detail.aircraft-detail': ApiAircraftDetailAircraftDetail;
+      'api::airplane-make.airplane-make': ApiAirplaneMakeAirplaneMake;
+      'api::airplane-model.airplane-model': ApiAirplaneModelAirplaneModel;
+      'api::broker-setting.broker-setting': ApiBrokerSettingBrokerSetting;
+      'api::leg.leg': ApiLegLeg;
+      'api::quote.quote': ApiQuoteQuote;
     }
   }
 }

@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "quotes",
+  "info": {
+    "singularName": "quote",
+    "pluralName": "quotes",
+    "displayName": "Quote",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "clientName": {
+      "type": "string",
+      "required": true,
+      "minLength": 3
+    },
+    "clientEmail": {
+      "type": "email",
+      "required": false
+    },
+    "price": {
+      "type": "integer",
+      "required": true
+    },
+    "taxRate": {
+      "type": "decimal",
+      "required": true
+    },
+    "actionRequest": {
+      "type": "enumeration",
+      "enum": [
+        "contract",
+        "approval"
+      ],
+      "required": true
+    }
+  }
+}
