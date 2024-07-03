@@ -1,0 +1,20 @@
+{
+  "kind": "collectionType",
+  "collectionName": "airplane_makes",
+  "info": {
+    "singularName": "airplane-make",
+    "pluralName": "airplane-makes",
+    "displayName": "airplaneMake",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "make": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

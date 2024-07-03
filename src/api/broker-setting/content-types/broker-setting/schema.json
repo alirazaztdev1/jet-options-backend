@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "broker_settings",
+  "info": {
+    "singularName": "broker-setting",
+    "pluralName": "broker-settings",
+    "displayName": "BrokerSetting",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "brokerName": {
+      "type": "string",
+      "required": true
+    },
+    "brokerageName": {
+      "type": "string"
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "user": {
+      "type": "integer",
+      "required": true,
+      "unique": true
+    }
+  }
+}

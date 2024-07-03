@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "airplane_models",
+  "info": {
+    "singularName": "airplane-model",
+    "pluralName": "airplane-models",
+    "displayName": "airplaneModel",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "model": {
+      "type": "string",
+      "required": true
+    },
+    "interior": {
+      "type": "text"
+    },
+    "exterior": {
+      "type": "string"
+    },
+    "airplane_make": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::airplane-make.airplane-make"
+    }
+  }
+}

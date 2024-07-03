@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "legs",
+  "info": {
+    "singularName": "leg",
+    "pluralName": "legs",
+    "displayName": "leg"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "from": {
+      "type": "string",
+      "required": true
+    },
+    "to": {
+      "type": "string",
+      "required": true
+    },
+    "date": {
+      "type": "datetime",
+      "required": true
+    },
+    "passengers": {
+      "type": "integer"
+    },
+    "quote": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::quote.quote"
+    }
+  }
+}
