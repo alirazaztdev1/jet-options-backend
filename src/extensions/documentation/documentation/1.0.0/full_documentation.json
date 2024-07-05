@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2024-07-04T18:21:40.424Z"
+    "x-generation-date": "2024-07-05T07:33:44.845Z"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -634,9 +634,6 @@
                         "type": "string",
                         "format": "email"
                       },
-                      "price": {
-                        "type": "integer"
-                      },
                       "taxRate": {
                         "type": "number",
                         "format": "float"
@@ -646,6 +643,14 @@
                         "enum": [
                           "contract",
                           "approval"
+                        ]
+                      },
+                      "price": {
+                        "type": "string",
+                        "enum": [
+                          "USD ($)",
+                          "EUR (€)",
+                          "AUD ($)"
                         ]
                       },
                       "createdAt": {
@@ -2552,9 +2557,6 @@
                         "type": "string",
                         "format": "email"
                       },
-                      "price": {
-                        "type": "integer"
-                      },
                       "taxRate": {
                         "type": "number",
                         "format": "float"
@@ -2564,6 +2566,14 @@
                         "enum": [
                           "contract",
                           "approval"
+                        ]
+                      },
+                      "price": {
+                        "type": "string",
+                        "enum": [
+                          "USD ($)",
+                          "EUR (€)",
+                          "AUD ($)"
                         ]
                       },
                       "createdAt": {
@@ -2941,7 +2951,6 @@
           "data": {
             "required": [
               "clientName",
-              "price",
               "taxRate",
               "actionRequest"
             ],
@@ -2954,9 +2963,6 @@
                 "type": "string",
                 "format": "email"
               },
-              "price": {
-                "type": "integer"
-              },
               "taxRate": {
                 "type": "number",
                 "format": "float"
@@ -2966,6 +2972,14 @@
                 "enum": [
                   "contract",
                   "approval"
+                ]
+              },
+              "price": {
+                "type": "string",
+                "enum": [
+                  "USD ($)",
+                  "EUR (€)",
+                  "AUD ($)"
                 ]
               }
             }
@@ -3022,7 +3036,6 @@
         "type": "object",
         "required": [
           "clientName",
-          "price",
           "taxRate",
           "actionRequest"
         ],
@@ -3034,9 +3047,6 @@
             "type": "string",
             "format": "email"
           },
-          "price": {
-            "type": "integer"
-          },
           "taxRate": {
             "type": "number",
             "format": "float"
@@ -3046,6 +3056,14 @@
             "enum": [
               "contract",
               "approval"
+            ]
+          },
+          "price": {
+            "type": "string",
+            "enum": [
+              "USD ($)",
+              "EUR (€)",
+              "AUD ($)"
             ]
           },
           "createdAt": {
