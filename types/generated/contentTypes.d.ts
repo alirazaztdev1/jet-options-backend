@@ -982,6 +982,7 @@ export interface ApiQuoteQuote extends Schema.CollectionType {
     actionRequest: Attribute.Enumeration<['contract', 'approval']> &
       Attribute.Required;
     price: Attribute.Enumeration<['USD ($)', 'EUR (\u20AC)', 'AUD ($)']>;
+    user: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
