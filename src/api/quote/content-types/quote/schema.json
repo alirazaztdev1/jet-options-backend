@@ -40,6 +40,9 @@
         "EUR (€)",
         "AUD ($)"
       ]
+    },
+    "user": {
+      "type": "integer"
     }
   }
 }
