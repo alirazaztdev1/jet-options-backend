@@ -21,4 +21,28 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
 
     return result;
   },
+
+  async findOne(ctx) {
+    const result = await super.findOne(ctx);
+
+    const legs = await strapi.db
+      .query("api::leg.leg")
+      .findMany({ where: { quote: result.data.id } });
+
+    const aircrafts = await strapi.db
+      .query("api::aircraft-detail.aircraft-detail")
+      .findMany({ where: { quote: result.data.id } });
+
+    return {
+      ...result,
+      data: {
+        ...result.data,
+        attributes: {
+          ...result.data.attributes,
+          legs: legs,
+          arcrafts: aircrafts,
+        },
+      },
+    };
+  },
 }));
