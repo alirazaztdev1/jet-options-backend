@@ -21,10 +21,6 @@
       "type": "email",
       "required": false
     },
-    "price": {
-      "type": "integer",
-      "required": true
-    },
     "taxRate": {
       "type": "decimal",
       "required": true
@@ -36,6 +32,14 @@
         "approval"
       ],
       "required": true
+    },
+    "price": {
+      "type": "enumeration",
+      "enum": [
+        "USD ($)",
+        "EUR (€)",
+        "AUD ($)"
+      ]
     }
   }
 }

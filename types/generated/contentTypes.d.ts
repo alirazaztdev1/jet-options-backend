@@ -978,10 +978,10 @@ export interface ApiQuoteQuote extends Schema.CollectionType {
         minLength: 3;
       }>;
     clientEmail: Attribute.Email;
-    price: Attribute.Integer & Attribute.Required;
     taxRate: Attribute.Decimal & Attribute.Required;
     actionRequest: Attribute.Enumeration<['contract', 'approval']> &
       Attribute.Required;
+    price: Attribute.Enumeration<['USD ($)', 'EUR (\u20AC)', 'AUD ($)']>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
