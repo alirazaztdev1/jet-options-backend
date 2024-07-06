@@ -1,15 +1,13 @@
 module.exports = ({ env }) => ({
   email: {
     config: {
-      provider: "amazon-ses",
+      provider: "sendgrid",
       providerOptions: {
-        key: env("JO_AWS_ACCESS_KEY_ID"),
-        secret: env("JO_AWS_SECRET_ACCESS_KEY_ID"),
-        amazon: "https://email.ap-southeast-2.amazonaws.com",
+        apiKey: env("SENDGRID_API_KEY"),
       },
       settings: {
-        defaultFrom: "aliraza.ztdev1@gmail.com",
-        defaultReplyTo: "aliraza.ztdev1@gmail.com",
+        defaultFrom: "bisharat.akram1999@gmail.com",
+        defaultReplyTo: "bisharat.akram1999@gmail.com",
       },
     },
   },
