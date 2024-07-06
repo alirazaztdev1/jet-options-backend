@@ -22,6 +22,41 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
     return result;
   },
 
+  async create(ctx) {
+    ctx.request.body.data.user = ctx.state.user.id;
+    const result = await super.create(ctx);
+
+    const legs = ctx.request.body.data.legs.map((leg) => ({
+      data: {
+        ...leg,
+        quote: result.data.id.toString(),
+      },
+    }));
+
+    const aircrafts = ctx.request.body.data.aircrafts.map((aircraft) => ({
+      data: {
+        ...aircraft,
+        quote: result.data.id.toString(),
+      },
+    }));
+
+    await Promise.all(
+      legs.map(async (leg) => {
+        await strapi.service("api::leg.leg").create(leg);
+      })
+    );
+
+    await Promise.all(
+      aircrafts.map(async (aircraft) => {
+        await strapi
+          .service("api::aircraft-detail.aircraft-detail")
+          .create(aircraft);
+      })
+    );
+
+    return result;
+  },
+
   async findOne(ctx) {
     const result = await super.findOne(ctx);
 
