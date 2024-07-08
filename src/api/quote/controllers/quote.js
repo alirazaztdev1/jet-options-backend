@@ -22,6 +22,40 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
     return result;
   },
 
+  async bookQuote(ctx) {
+    const { quote, aircraft } = ctx.request.body;
+
+    const quoteData = await strapi.db
+      .query("api::quote.quote")
+      .findOne({ where: { id: quote } });
+
+    const brokerData = await strapi.db
+      .query("api::broker-setting.broker-setting")
+      .findOne({ where: { user: quoteData.user } });
+
+    const legsData = await strapi.db
+      .query("api::leg.leg")
+      .findMany({ where: { quote } });
+
+    const aircraftData = await strapi.db
+      .query("api::aircraft-detail.aircraft-detail")
+      .findOne({
+        where: { id: aircraft },
+        populate: { airplane_make: true, airplane_model: true },
+      });
+
+    console.log("----------------all data---------", {
+      quoteData,
+      brokerData,
+      legsData,
+      aircraftData,
+    });
+
+    return {
+      message: "Booked successfully",
+    };
+  },
+
   async create(ctx) {
     ctx.request.body.data.user = ctx.state.user.id;
     const result = await super.create(ctx);
