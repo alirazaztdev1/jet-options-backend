@@ -100,7 +100,10 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
 
     const aircrafts = await strapi.db
       .query("api::aircraft-detail.aircraft-detail")
-      .findMany({ where: { quote: result.data.id } });
+      .findMany({
+        where: { quote: result.data.id },
+        populate: { airplane_make: true, airplane_model: true },
+      });
 
     return {
       ...result,
