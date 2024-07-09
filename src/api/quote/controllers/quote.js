@@ -5,6 +5,9 @@
  */
 
 const { createCoreController } = require("@strapi/strapi").factories;
+const path = require("path");
+const ejs = require("ejs");
+const moment = require("moment");
 
 module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
   async find(ctx) {
@@ -23,7 +26,20 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
   },
 
   async bookQuote(ctx) {
-    const { quote, aircraft, legsData } = ctx.request.body;
+    const { quote, aircraft } = ctx.request.body;
+
+    let { legsData } = ctx.request.body;
+
+    legsData = legsData.map((legData) => {
+      let departureDate = moment(legData.date);
+      let arrivalDate = moment(legData.arrivalDate);
+
+      return {
+        ...legData,
+        departureDate: departureDate.format("MM/DD/YYYY, h:mm A"),
+        arrivalDate: arrivalDate.format("MM/DD/YYYY, h:mm A"),
+      };
+    });
 
     const quoteData = await strapi.db
       .query("api::quote.quote")
@@ -37,16 +53,21 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
       .query("plugin::users-permissions.user")
       .findOne({ where: { id: quoteData.user } });
 
-    // const legsData = await strapi.db
-    //   .query("api::leg.leg")
-    //   .findMany({ where: { quote } });
-
     const aircraftData = await strapi.db
       .query("api::aircraft-detail.aircraft-detail")
       .findOne({
         where: { id: aircraft },
         populate: { airplane_make: true, airplane_model: true },
       });
+    const emailTemplate = await ejs.renderFile(
+      path.join(__dirname, "..", "templates/book-quote.ejs"),
+      {
+        brokerData,
+        quoteData,
+        aircraftData,
+        legsData,
+      }
+    );
 
     await strapi.plugins["email"].services.email.send({
       to: userData.email,
@@ -55,15 +76,8 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
         quoteData.actionRequest == "contract"
           ? "Requested contract"
           : "Request Approval",
-      html: "test",
+      html: emailTemplate,
       text: "test",
-    });
-
-    console.log("----------------all data---------", {
-      quoteData,
-      brokerData,
-      legsData,
-      aircraftData,
     });
 
     return {

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Contract Request</title>
+    <style>
+        p,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            margin: 0;
+            padding: 0;
+
+        }
+
+
+        .slider {
+            /* width: 80%;
+            max-width: 800px; */
+            overflow: hidden;
+            position: relative;
+            border-radius: 10px;
+            margin: 0 auto;
+        }
+
+        .slides {
+            width: 300%;
+            position: relative;
+            left: 0;
+            transition: left 0.5s ease;
+        }
+
+        .slide {
+            width: 33.3333%;
+            float: left;
+            box-sizing: border-box;
+        }
+
+        .slide img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .navigation {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .nav-btn {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 6px 13px;
+            cursor: pointer;
+            border-radius: 50%;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body
+    style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; padding: 20px; max-width: 800px; margin: 0 auto;">
+    <p><span style="font-weight: 400; font-size: 20px; color:  #000;"><%= brokerData.brokerName %></span>,</p>
+    <p style="font-weight: 400; font-size: 20px; color:  #000; padding-top: 12px;"><span><%= quoteData.clientName %></span> has
+        <%= quoteData.actionRequest == "contract" ? "requested a contract for" : "given approval to confirm" %> the following flight:</p>
+    <p style="font-weight: 400; font-size: 20px; color:  #000;padding-top: 12px;">Best,</p>
+    <p style="font-weight: 400; font-size: 20px; color:  #000;">JetOptions Team</p>
+
+    <div
+        style=" border-radius: 6px;border: 1px solid rgba(0, 0, 0, 0.20);background: rgba(248, 249, 250, 0.50);padding: 16px 10px; margin-top: 14px;">
+        <table>
+            <tr>
+                <td style="width: 50%;">
+                    <div>
+                        <h2
+                            style="color: #000; font-size: 16px; font-style: normal;font-weight: 700; line-height: normal;">
+                            Option 1: <%= aircraftData.airplane_make.make %> <%= aircraftData.airplane_model.model %> – <%= aircraftData.seats %> Seats</h2>
+                        <p
+                            style="padding-top: 18px; color: rgba(0, 0, 0, 0.70); font-size: 14px;font-style: normal;font-weight: 400;line-height: normal;">
+                            Charter Price: <img width="16" height="16" src="https://i.ibb.co/sFNd173/Icon-1.png"></p>
+                        <div
+                            style="border: 1px solid rgba(0, 0, 0, 0.1); max-width: 300px; padding:16px 10px;background: rgba(255, 255, 255, 1);border-radius: 4px; margin-top: 4px;">
+                            <p
+                                style="color: #000; font-size: 20px; font-style: normal;font-weight: 400;  line-height: normal;">
+                                $<%= aircraftData.price %> + <%= quoteData.taxRate %>%</p>
+                        </div>
+
+                        <div
+                            style="padding-top: 6px; color: rgba(0, 0, 0, 0.70); font-size: 14px;font-style: normal;font-weight: 400; line-height: normal;">
+                            Total Price (Tax Included):</div>
+                        <div
+                            style="border: 1px solid rgba(0, 0, 0, 0.1); max-width: 300px; padding:16px 10px;background: rgba(255, 255, 255, 1);border-radius: 4px; margin-top: 4px;">
+                            <p
+                                style="color: #000; font-size: 20px; font-style: normal;font-weight: 400;  line-height: normal;">
+                                <%= aircraftData.price+(aircraftData.price*(quoteData.taxRate/100)) %></p>
+                        </div>
+                        <p
+                            style="padding-top: 18px; color: rgba(0, 0, 0, 0.70); font-size: 14px;font-style: normal;font-weight: 400;line-height: normal;">
+                            Year of Manufacturer / Year of Refurbishment:</p>
+                        <div
+                            style="border: 1px solid rgba(0, 0, 0, 0.1); max-width: 300px; padding:16px 10px;background: rgba(255, 255, 255, 1);border-radius: 4px; margin-top: 4px;">
+                            <p
+                                style="color: #000; font-size: 20px; font-style: normal;font-weight: 400;  line-height: normal;">
+                                <%= aircraftData.yearOfManufacture %> / <%= aircraftData.yearOfRefurbishment %></p>
+                        </div>
+
+
+                    </div>
+                </td>
+                <td>
+                    <!-- <div>
+                        <img src="https://i.ibb.co/R9jStNc/Group-3022.png">
+                    </div> -->
+                    <h2 style="color: #000; font-size: 16px; font-style: normal;font-weight: 700; line-height: normal;padding-bottom: 12px;padding-left: 40px;">
+                            Photos*</h2>
+                    <div class="slider">
+                        <div class="slides">
+                            <div class="slide">
+                                <img src=<%= aircraftData.airplane_model.interior %> alt="Image 1">
+                            </div>
+                            <div class="slide">
+                                <img src="https://i.ibb.co/R9jStNc/Group-3022.png" alt="Image 2">
+                            </div>
+                        </div>
+                        <div class="navigation">
+                            <div class="nav-btn" id="prev">&#10094;</div>
+                            <div class="nav-btn" id="next">&#10095;</div>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+        </table>
+
+
+
+        <h3
+            style="color: #000; font-size: 20px;font-style: normal; font-weight: 700; line-height: normal; padding-top: 25px;">
+            Itinerary:</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+            <tr>
+                <th
+                    style="border-bottom: 1px solid #ccc; padding:16px 10px; color: #000;font-size: 20px;font-style: normal;font-weight: 400;line-height: normal;">
+                    Depart</th>
+                <th
+                    style="border-bottom: 1px solid #ccc; padding:16px 10px; color: #000;font-size: 20px;font-style: normal;font-weight: 400;line-height: normal;">
+                    Flight Time</th>
+                <th
+                    style="border-bottom: 1px solid #ccc; padding:16px 10px; color: #000;font-size: 20px;font-style: normal;font-weight: 400;line-height: normal;">
+                    Arrive</th>
+            </tr>
+            <tr>
+                <td style="border-bottom: 1px solid #ccc;text-align:center; padding:16px 10px;">
+                    <div style="display: inline-block; text-align: left;">
+                        <img style="padding-bottom: 10px; width: 20px;height: 20px;"
+                            src="https://i.ibb.co/Gx8kQ2Q/Departure-1.png">
+                        <div style="display: inline-block; padding-left: 10px;">
+                            <span
+                                style="color: #000; font-size: 20px; font-style: normal; font-weight: 400; line-height: normal;">Teterboro
+                                (TEB) </span><br>
+                            <span
+                                style="color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 400;line-height: normal;">8/15/2023,</span>
+                            <span style="font-weight: 700;"> 8:00 AM</span>
+                        </div>
+                    </div>
+                </td>
+                <td
+                    style="border-bottom: 1px solid #ccc;text-align:center; padding:16px 10px;color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 500;line-height: normal;">
+                    5:27</td>
+                <td style="border-bottom: 1px solid #ccc;text-align:center; padding:16px 10px;">
+                    <div style="display: inline-block; text-align: left;">
+                        <img style="padding-bottom: 10px; width: 20px;height: 20px;"
+                            src="https://i.ibb.co/Gx8kQ2Q/Departure-1.png">
+                        <div style="display: inline-block; padding-left: 10px;">
+                            <span
+                                style="color: #000; font-size: 20px; font-style: normal; font-weight: 400; line-height: normal;">Van
+                                Nuys (KVNY) </span><br>
+                            <span
+                                style="color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 400;line-height: normal;">
+                                8/15/2023, </span>
+                            <span
+                                style="color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 700;line-height: normal;">11:00
+                                AM</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <!-- 2 -->
+            <tr>
+                <td style="border-bottom: 1px solid #ccc;text-align:center; padding:16px 10px;">
+                    <div style="display: inline-block; text-align: left;">
+                        <img style="padding-bottom: 10px; width: 20px;height: 20px;"
+                            src="https://i.ibb.co/Gx8kQ2Q/Departure-1.png">
+                        <div style="display: inline-block; padding-left: 10px;">
+                            <span
+                                style="color: #000; font-size: 20px; font-style: normal; font-weight: 400; line-height: normal;">Teterboro
+                                (TEB) </span><br>
+                            <span
+                                style="color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 400;line-height: normal;">8/15/2023,</span>
+                            <span style="font-weight: 700;"> 8:00 AM</span>
+                        </div>
+                    </div>
+                </td>
+                <td
+                    style="border-bottom: 1px solid #ccc;text-align:center; padding:16px 10px;color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 500;line-height: normal;">
+                    5:27</td>
+                <td style="border-bottom: 1px solid #ccc;text-align:center; padding:16px 10px;">
+                    <div style="display: inline-block; text-align: left;">
+                        <img style="padding-bottom: 10px; width: 20px;height: 20px;"
+                            src="https://i.ibb.co/Gx8kQ2Q/Departure-1.png">
+                        <div style="display: inline-block; padding-left: 10px;">
+                            <span
+                                style="color: #000; font-size: 20px; font-style: normal; font-weight: 400; line-height: normal;">Van
+                                Nuys (KVNY) </span><br>
+                            <span
+                                style="color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 400;line-height: normal;">
+                                8/15/2023, </span>
+                            <span
+                                style="color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 700;line-height: normal;">11:00
+                                AM</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <!-- 3 -->
+            <tr>
+                <td style="border-bottom: 1px solid #ccc;text-align:center; padding:16px 10px;">
+                    <div style="display: inline-block; text-align: left;">
+                        <img style="padding-bottom: 10px; width: 20px;height: 20px;"
+                            src="https://i.ibb.co/Gx8kQ2Q/Departure-1.png">
+                        <div style="display: inline-block; padding-left: 10px;">
+                            <span
+                                style="color: #000; font-size: 20px; font-style: normal; font-weight: 400; line-height: normal;">Teterboro
+                                (TEB) </span><br>
+                            <span
+                                style="color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 400;line-height: normal;">8/15/2023,</span>
+                            <span style="font-weight: 700;"> 8:00 AM</span>
+                        </div>
+                    </div>
+                </td>
+                <td
+                    style="border-bottom: 1px solid #ccc;text-align:center; padding:16px 10px;color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 500;line-height: normal;">
+                    5:27</td>
+                <td style="border-bottom: 1px solid #ccc;text-align:center; padding:16px 10px;">
+                    <div style="display: inline-block; text-align: left;">
+                        <img style="padding-bottom: 10px; width: 20px;height: 20px;"
+                            src="https://i.ibb.co/Gx8kQ2Q/Departure-1.png">
+                        <div style="display: inline-block; padding-left: 10px;">
+                            <span
+                                style="color: #000; font-size: 20px; font-style: normal; font-weight: 400; line-height: normal;">Van
+                                Nuys (KVNY) </span><br>
+                            <span
+                                style="color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 400;line-height: normal;">
+                                8/15/2023, </span>
+                            <span
+                                style="color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 700;line-height: normal;">11:00
+                                AM</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <!-- 4 -->
+            <tr>
+                <td style="border-bottom: 1px solid #ccc;text-align:center; padding:16px 10px;">
+                    <div style="display: inline-block; text-align: left;">
+                        <img style="padding-bottom: 10px; width: 20px;height: 20px;"
+                            src="https://i.ibb.co/Gx8kQ2Q/Departure-1.png">
+                        <div style="display: inline-block; padding-left: 10px;">
+                            <span
+                                style="color: #000; font-size: 20px; font-style: normal; font-weight: 400; line-height: normal;">Teterboro
+                                (TEB) </span><br>
+                            <span
+                                style="color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 400;line-height: normal;">8/15/2023,</span>
+                            <span style="font-weight: 700;"> 8:00 AM</span>
+                        </div>
+                    </div>
+                </td>
+                <td
+                    style="border-bottom: 1px solid #ccc;text-align:center; padding:16px 10px;color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 500;line-height: normal;">
+                    5:27</td>
+                <td style="border-bottom: 1px solid #ccc;text-align:center; padding:16px 10px;">
+                    <div style="display: inline-block; text-align: left;">
+                        <img style="padding-bottom: 10px; width: 20px;height: 20px;"
+                            src="https://i.ibb.co/Gx8kQ2Q/Departure-1.png">
+                        <div style="display: inline-block; padding-left: 10px;">
+                            <span
+                                style="color: #000; font-size: 20px; font-style: normal; font-weight: 400; line-height: normal;">Van
+                                Nuys (KVNY) </span><br>
+                            <span
+                                style="color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 400;line-height: normal;">
+                                8/15/2023, </span>
+                            <span
+                                style="color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 700;line-height: normal;">11:00
+                                AM</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <!-- 5 -->
+            <tr>
+                <td style="border-bottom: 1px solid #ccc;text-align:center; padding:16px 10px;">
+                    <div style="display: inline-block; text-align: left;">
+                        <img style="padding-bottom: 10px; width: 20px;height: 20px;"
+                            src="https://i.ibb.co/Gx8kQ2Q/Departure-1.png">
+                        <div style="display: inline-block; padding-left: 10px;">
+                            <span
+                                style="color: #000; font-size: 20px; font-style: normal; font-weight: 400; line-height: normal;">Teterboro
+                                (TEB) </span><br>
+                            <span
+                                style="color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 400;line-height: normal;">8/15/2023,</span>
+                            <span style="font-weight: 700;"> 8:00 AM</span>
+                        </div>
+                    </div>
+                </td>
+                <td
+                    style="border-bottom: 1px solid #ccc;text-align:center; padding:16px 10px;color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 500;line-height: normal;">
+                    5:27</td>
+                <td style="border-bottom: 1px solid #ccc;text-align:center; padding:16px 10px;">
+                    <div style="display: inline-block; text-align: left;">
+                        <img style="padding-bottom: 10px; width: 20px;height: 20px;"
+                            src="https://i.ibb.co/Gx8kQ2Q/Departure-1.png">
+                        <div style="display: inline-block; padding-left: 10px;">
+                            <span
+                                style="color: #000; font-size: 20px; font-style: normal; font-weight: 400; line-height: normal;">Van
+                                Nuys (KVNY) </span><br>
+                            <span
+                                style="color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 400;line-height: normal;">
+                                8/15/2023, </span>
+                            <span
+                                style="color: rgba(0, 0, 0, 0.70);font-size: 16px;font-style: normal;font-weight: 700;line-height: normal;">11:00
+                                AM</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <!-- Repeat rows as needed -->
+        </table>
+    </div>
+    <script>
+   var index = 0;
+
+var slides = document.querySelector('.slides');
+var totalSlides = document.querySelectorAll('.slide').length;
+
+document.getElementById('next').onclick = function() {
+    if (index === totalSlides - 1) {
+        index = 0;
+    } else {
+        index++;
+    }
+    updateSlidePosition();
+};
+
+document.getElementById('prev').onclick = function() {
+    if (index === 0) {
+        index = totalSlides - 1;
+    } else {
+        index--;
+    }
+    updateSlidePosition();
+};
+
+function updateSlidePosition() {
+    slides.style.left = -index * 100 + '%';
+}
+    </script>
+</body>
+
+</html>
