@@ -794,6 +794,7 @@ export interface ApiAircraftDetailAircraftDetail extends Schema.CollectionType {
     singularName: 'aircraft-detail';
     pluralName: 'aircraft-details';
     displayName: 'aircraftDetail';
+    description: '';
   };
   options: {
     draftAndPublish: false;
@@ -818,6 +819,7 @@ export interface ApiAircraftDetailAircraftDetail extends Schema.CollectionType {
       'api::quote.quote'
     >;
     policy: Attribute.RichText & Attribute.Required;
+    seats: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
