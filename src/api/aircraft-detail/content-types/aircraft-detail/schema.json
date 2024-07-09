@@ -4,7 +4,8 @@
   "info": {
     "singularName": "aircraft-detail",
     "pluralName": "aircraft-details",
-    "displayName": "aircraftDetail"
+    "displayName": "aircraftDetail",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -41,6 +42,9 @@
     "policy": {
       "type": "richtext",
       "required": true
+    },
+    "seats": {
+      "type": "integer"
     }
   }
 }
