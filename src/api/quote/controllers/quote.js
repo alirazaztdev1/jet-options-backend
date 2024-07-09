@@ -23,7 +23,7 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
   },
 
   async bookQuote(ctx) {
-    const { quote, aircraft } = ctx.request.body;
+    const { quote, aircraft, legsData } = ctx.request.body;
 
     const quoteData = await strapi.db
       .query("api::quote.quote")
@@ -33,9 +33,13 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
       .query("api::broker-setting.broker-setting")
       .findOne({ where: { user: quoteData.user } });
 
-    const legsData = await strapi.db
-      .query("api::leg.leg")
-      .findMany({ where: { quote } });
+    const userData = await strapi.db
+      .query("plugin::users-permissions.user")
+      .findOne({ where: { id: quoteData.user } });
+
+    // const legsData = await strapi.db
+    //   .query("api::leg.leg")
+    //   .findMany({ where: { quote } });
 
     const aircraftData = await strapi.db
       .query("api::aircraft-detail.aircraft-detail")
@@ -43,6 +47,17 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
         where: { id: aircraft },
         populate: { airplane_make: true, airplane_model: true },
       });
+
+    await strapi.plugins["email"].services.email.send({
+      to: userData.email,
+      from: process.env.JET_OPTIONS_EMAIL_ADDRESS,
+      subject:
+        quoteData.actionRequest == "contract"
+          ? "Requested contract"
+          : "Request Approval",
+      html: "test",
+      text: "test",
+    });
 
     console.log("----------------all data---------", {
       quoteData,
