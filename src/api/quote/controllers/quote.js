@@ -34,10 +34,20 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
       let departureDate = moment(legData.date);
       let arrivalDate = moment(legData.arrivalDate);
 
+      const duration = moment.duration(legData.flightTime, "minutes");
+      const hours = Math.floor(duration.asHours());
+      const minutes = duration.minutes();
+      const formattedTime = moment({ hour: hours, minute: minutes }).format(
+        "H:mm"
+      );
+
       return {
         ...legData,
-        departureDate: departureDate.format("MM/DD/YYYY, h:mm A"),
-        arrivalDate: arrivalDate.format("MM/DD/YYYY, h:mm A"),
+        departureDate: departureDate.format("MM/DD/YYYY"),
+        departureTime: departureDate.format("h:mm A"),
+        arrivalDate: arrivalDate.format("MM/DD/YYYY"),
+        arrivalTime: arrivalDate.format("h:mm A"),
+        flightTime: formattedTime,
       };
     });
 
@@ -59,6 +69,7 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
         where: { id: aircraft },
         populate: { airplane_make: true, airplane_model: true },
       });
+    
     const emailTemplate = await ejs.renderFile(
       path.join(__dirname, "..", "templates/book-quote.ejs"),
       {
