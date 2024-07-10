@@ -69,7 +69,7 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
         where: { id: aircraft },
         populate: { airplane_make: true, airplane_model: true },
       });
-    
+
     const emailTemplate = await ejs.renderFile(
       path.join(__dirname, "..", "templates/book-quote.ejs"),
       {
@@ -145,6 +145,13 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
         populate: { airplane_make: true, airplane_model: true },
       });
 
+    const brokerSettings = await strapi.db
+      .query("api::broker-setting.broker-setting")
+      .findOne({
+        where: { user: result.data.attributes.user },
+        populate: { logo: true },
+      });
+
     return {
       ...result,
       data: {
@@ -153,6 +160,7 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
           ...result.data.attributes,
           legs: legs,
           arcrafts: aircrafts,
+          brokerSettings,
         },
       },
     };
