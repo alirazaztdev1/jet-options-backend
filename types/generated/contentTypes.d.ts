@@ -962,6 +962,51 @@ export interface ApiLegLeg extends Schema.CollectionType {
   };
 }
 
+export interface ApiLegsFlightTimeLegsFlightTime extends Schema.CollectionType {
+  collectionName: 'legs_flight_times';
+  info: {
+    singularName: 'legs-flight-time';
+    pluralName: 'legs-flight-times';
+    displayName: 'legsFlightTime';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    leg: Attribute.Relation<
+      'api::legs-flight-time.legs-flight-time',
+      'oneToOne',
+      'api::leg.leg'
+    >;
+    quote: Attribute.Relation<
+      'api::legs-flight-time.legs-flight-time',
+      'oneToOne',
+      'api::quote.quote'
+    >;
+    aircraft_detail: Attribute.Relation<
+      'api::legs-flight-time.legs-flight-time',
+      'oneToOne',
+      'api::aircraft-detail.aircraft-detail'
+    >;
+    flightTime: Attribute.Integer;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::legs-flight-time.legs-flight-time',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::legs-flight-time.legs-flight-time',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiQuoteQuote extends Schema.CollectionType {
   collectionName: 'quotes';
   info: {
@@ -1025,6 +1070,7 @@ declare module '@strapi/types' {
       'api::airplane-model.airplane-model': ApiAirplaneModelAirplaneModel;
       'api::broker-setting.broker-setting': ApiBrokerSettingBrokerSetting;
       'api::leg.leg': ApiLegLeg;
+      'api::legs-flight-time.legs-flight-time': ApiLegsFlightTimeLegsFlightTime;
       'api::quote.quote': ApiQuoteQuote;
     }
   }

@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "legs_flight_times",
+  "info": {
+    "singularName": "legs-flight-time",
+    "pluralName": "legs-flight-times",
+    "displayName": "legsFlightTime",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "leg": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::leg.leg"
+    },
+    "quote": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::quote.quote"
+    },
+    "aircraft_detail": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::aircraft-detail.aircraft-detail"
+    },
+    "flightTime": {
+      "type": "integer"
+    }
+  }
+}
