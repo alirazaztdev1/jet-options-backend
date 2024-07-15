@@ -8,6 +8,12 @@ const { createCoreController } = require("@strapi/strapi").factories;
 const path = require("path");
 const ejs = require("ejs");
 const moment = require("moment");
+const axios = require("axios");
+const AVIAPAGES_API_KEY = process.env.AVIAPAGES_API_KEY;
+const AVIAPAGES_API_URL = process.env.AVIAPAGES_API_URL;
+const headerForAviaPages = {
+  Authorization: `Token ${AVIAPAGES_API_KEY}`,
+};
 
 module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
   async find(ctx) {
@@ -114,17 +120,86 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
       },
     }));
 
-    await Promise.all(
+    const createdLegs = await Promise.all(
       legs.map(async (leg) => {
-        await strapi.service("api::leg.leg").create(leg);
+        return await strapi.service("api::leg.leg").create(leg);
+      })
+    );
+
+    const createdAircrafts = await Promise.all(
+      aircrafts.map(async (aircraft) => {
+        return await strapi
+          .service("api::aircraft-detail.aircraft-detail")
+          .create(aircraft);
       })
     );
 
     await Promise.all(
-      aircrafts.map(async (aircraft) => {
-        await strapi
-          .service("api::aircraft-detail.aircraft-detail")
-          .create(aircraft);
+      createdAircrafts.map(async (createdAircraft) => {
+        const aircraftData = await strapi.db
+          .query("api::aircraft-detail.aircraft-detail")
+          .findOne({
+            where: { id: createdAircraft.id },
+            populate: { airplane_make: true, airplane_model: true },
+          });
+
+        const aircraftModel = `${aircraftData.airplane_make.make} ${aircraftData.airplane_model.model}`;
+
+        await Promise.all(
+          createdLegs.map(async (leg) => {
+            try {
+              const flightCalculatePayload = {
+                departure_airport: leg.from,
+                arrival_airport: leg.to,
+                aircraft: aircraftModel,
+                pax: leg.passengers,
+                airway_time: true,
+              };
+              const flightTimeResponse = await axios.post(
+                AVIAPAGES_API_URL,
+                flightCalculatePayload,
+                {
+                  headers: headerForAviaPages,
+                }
+              );
+
+              console.log(
+                "----------------AVIA Response------------",
+                flightTimeResponse.data,
+                "\n----------------Object for Creation---------------",
+                {
+                  leg: leg.id,
+                  quote: result.data.id,
+                  aircraft_detail: createdAircraft.id,
+                  flightTime: flightTimeResponse.data?.time?.airway,
+                }
+              );
+
+              await strapi.db
+                .query("api::legs-flight-time.legs-flight-time")
+                .create({
+                  data: {
+                    leg: leg.id,
+                    quote: result.data.id,
+                    aircraft_detail: createdAircraft.id,
+                    flightTime: flightTimeResponse.data?.time?.airway,
+                  },
+                });
+            } catch (error) {
+              console.log(error);
+              await strapi.db
+                .query("api::legs-flight-time.legs-flight-time")
+                .create({
+                  data: {
+                    leg: leg.id,
+                    quote: result.data.id,
+                    aircraft_detail: createdAircraft.id,
+                    flightTime: null,
+                  },
+                });
+            }
+          })
+        );
       })
     );
 
