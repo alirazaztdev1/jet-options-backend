@@ -13,7 +13,7 @@ const headerForAviaPages = {
 
 module.exports = {
   async calculateFlightTime(ctx) {
-    const { quote, aircraftModel } = ctx.request.query;
+    const { quote, aircraft } = ctx.request.query;
     let legs = await strapi.db
       .query("api::leg.leg")
       .findMany({ where: { quote } });
@@ -21,23 +21,13 @@ module.exports = {
     legs = await Promise.all(
       legs.map(async (leg) => {
         try {
-          const flightCalculatePayload = {
-            departure_airport: leg.from,
-            arrival_airport: leg.to,
-            aircraft: aircraftModel,
-            pax: leg.passengers,
-            airway_time: true,
-          };
-          const flightTimeResponse = await axios.post(
-            AVIAPAGES_API_URL,
-            flightCalculatePayload,
-            {
-              headers: headerForAviaPages,
-            }
-          );
+          const flightTimeResponse = await strapi.db
+            .query("api::legs-flight-time.legs-flight-time")
+            .findOne({ where: { leg: leg.id, aircraft_detail: aircraft } });
+
           return {
             ...leg,
-            flightTime: flightTimeResponse.data?.time?.airway,
+            flightTime: flightTimeResponse.flightTime,
           };
         } catch (error) {
           console.log(error);
