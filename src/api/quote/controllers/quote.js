@@ -154,6 +154,7 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
                 aircraft: aircraftModel,
                 pax: leg.passengers,
                 airway_time: true,
+                airway_time_weather_impacted: true,
               };
               const flightTimeResponse = await axios.post(
                 AVIAPAGES_API_URL,
