@@ -4,7 +4,8 @@
   "info": {
     "singularName": "leg",
     "pluralName": "legs",
-    "displayName": "leg"
+    "displayName": "leg",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -30,6 +31,12 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::quote.quote"
+    },
+    "fromCity": {
+      "type": "string"
+    },
+    "toCity": {
+      "type": "string"
     }
   }
 }
