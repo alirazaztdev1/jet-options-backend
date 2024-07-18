@@ -11,6 +11,8 @@ const moment = require("moment");
 const axios = require("axios");
 const AVIAPAGES_API_KEY = process.env.AVIAPAGES_API_KEY;
 const AVIAPAGES_API_URL = process.env.AVIAPAGES_API_URL;
+const AVIAPAGES_AIRPORT_API_URL =
+  "https://dir.aviapages.com/api/airports/?search=";
 const headerForAviaPages = {
   Authorization: `Token ${AVIAPAGES_API_KEY}`,
 };
@@ -122,7 +124,30 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
 
     const createdLegs = await Promise.all(
       legs.map(async (leg) => {
-        return await strapi.service("api::leg.leg").create(leg);
+        const aviaPagesApiUrlWithFromCode = `${AVIAPAGES_AIRPORT_API_URL}${leg?.data?.from}`;
+        const aviaPagesApiUrlWithToCode = `${AVIAPAGES_AIRPORT_API_URL}${leg?.data?.to}`;
+        const aviaResponseWithNameForFrom = await axios.get(
+          aviaPagesApiUrlWithFromCode,
+          {
+            headers: headerForAviaPages,
+          }
+        );
+
+        const aviaResponseWithNameForTo = await axios.get(
+          aviaPagesApiUrlWithToCode,
+          {
+            headers: headerForAviaPages,
+          }
+        );
+
+        return await strapi.service("api::leg.leg").create({
+          ...leg,
+          data: {
+            ...leg.data,
+            fromCity: aviaResponseWithNameForFrom.data?.results[0]?.name,
+            toCity: aviaResponseWithNameForTo.data?.results[0]?.name,
+          },
+        });
       })
     );
 

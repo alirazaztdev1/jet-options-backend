@@ -943,6 +943,7 @@ export interface ApiLegLeg extends Schema.CollectionType {
     singularName: 'leg';
     pluralName: 'legs';
     displayName: 'leg';
+    description: '';
   };
   options: {
     draftAndPublish: false;
@@ -953,6 +954,8 @@ export interface ApiLegLeg extends Schema.CollectionType {
     date: Attribute.DateTime & Attribute.Required;
     passengers: Attribute.Integer;
     quote: Attribute.Relation<'api::leg.leg', 'oneToOne', 'api::quote.quote'>;
+    fromCity: Attribute.String;
+    toCity: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::leg.leg', 'oneToOne', 'admin::user'> &
