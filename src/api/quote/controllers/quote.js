@@ -12,7 +12,7 @@ const axios = require("axios");
 const AVIAPAGES_API_KEY = process.env.AVIAPAGES_API_KEY;
 const AVIAPAGES_API_URL = process.env.AVIAPAGES_API_URL;
 const AVIAPAGES_AIRPORT_API_URL =
-  "https://dir.aviapages.com/api/airports/?search=";
+  "https://dir.aviapages.com/api/airports/?search_icao=";
 const headerForAviaPages = {
   Authorization: `Token ${AVIAPAGES_API_KEY}`,
 };
@@ -144,8 +144,8 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
           ...leg,
           data: {
             ...leg.data,
-            fromCity: aviaResponseWithNameForFrom.data?.results[0]?.name,
-            toCity: aviaResponseWithNameForTo.data?.results[0]?.name,
+            fromCity: aviaResponseWithNameForFrom.data?.results[0]?.city_name,
+            toCity: aviaResponseWithNameForTo.data?.results[0]?.city_name,
           },
         });
       })
