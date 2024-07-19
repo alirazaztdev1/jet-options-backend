@@ -180,6 +180,8 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
                 pax: leg.passengers,
                 airway_time: true,
                 airway_time_weather_impacted: true,
+                departure_datetime: leg.date.substring(0, 19),
+                arrival_datetime: true,
               };
               const flightTimeResponse = await axios.post(
                 AVIAPAGES_API_URL,
@@ -209,6 +211,7 @@ module.exports = createCoreController("api::quote.quote", ({ strapi }) => ({
                     quote: result.data.id,
                     aircraft_detail: createdAircraft.id,
                     flightTime: flightTimeResponse.data?.time?.airway,
+                    arrivalTime: flightTimeResponse.data?.time?.arrival_local_airway
                   },
                 });
             } catch (error) {

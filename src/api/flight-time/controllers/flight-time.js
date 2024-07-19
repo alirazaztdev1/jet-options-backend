@@ -28,6 +28,7 @@ module.exports = {
           return {
             ...leg,
             flightTime: flightTimeResponse.flightTime,
+            arrivalTime: flightTimeResponse.arrivalTime
           };
         } catch (error) {
           console.log(error);

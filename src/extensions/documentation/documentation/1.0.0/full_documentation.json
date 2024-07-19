@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2024-07-18T06:17:19.826Z"
+    "x-generation-date": "2024-07-19T06:37:02.826Z"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -3010,6 +3010,10 @@
               },
               "flightTime": {
                 "type": "integer"
+              },
+              "arrivalTime": {
+                "type": "string",
+                "format": "date-time"
               }
             }
           }
@@ -3744,6 +3748,10 @@
           },
           "flightTime": {
             "type": "integer"
+          },
+          "arrivalTime": {
+            "type": "string",
+            "format": "date-time"
           },
           "createdAt": {
             "type": "string",

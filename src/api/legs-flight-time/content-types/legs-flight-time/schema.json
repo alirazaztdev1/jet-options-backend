@@ -29,6 +29,9 @@
     },
     "flightTime": {
       "type": "integer"
+    },
+    "arrivalTime": {
+      "type": "datetime"
     }
   }
 }
