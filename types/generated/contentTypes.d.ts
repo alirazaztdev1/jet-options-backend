@@ -993,6 +993,7 @@ export interface ApiLegsFlightTimeLegsFlightTime extends Schema.CollectionType {
       'api::aircraft-detail.aircraft-detail'
     >;
     flightTime: Attribute.Integer;
+    arrivalTime: Attribute.DateTime;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
